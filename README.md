@@ -11,11 +11,12 @@ These are exercises to practice and enhance my self-learn SQL skills and advance
   ![alt text](ig_schema.PNG "Logo Title Text 1")
   
   
-  1/ Find out Total users we are having on our database:
+   1/ Find out Total users we are having on our database:
   
-    SELECT COUNT(*) 
-	FROM users;
-    
+    SELECT COUNT(*) AS total_users
+    FROM users;
+   
+  
   2/ Find out Top 5 users that have most followees:
   
     SELECT users.username, follows.follower_id, COUNT(*) as total
@@ -23,6 +24,7 @@ These are exercises to practice and enhance my self-learn SQL skills and advance
     INNER JOIN users ON users.id = follows.follower_id
     GROUP BY follows.follower_id
     ORDER BY total DESC LIMIT 5;
+    
     
   3/ Find out Top 5 period hours that have most interation:
   
