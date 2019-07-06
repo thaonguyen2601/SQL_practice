@@ -11,7 +11,12 @@ These are exercises to practice and enhance my self-learn SQL skills and advance
   ![alt text](ig_schema.PNG "Logo Title Text 1")
   
   
-  1/ Find out Top 5 users that have most followees:
+  1/ Find out Total users we are having on our database:
+  
+    SELECT COUNT(*) 
+	FROM users;
+    
+  2/ Find out Top 5 users that have most followees:
   
     SELECT users.username, follows.follower_id, COUNT(*) as total
     FROM follows
@@ -19,14 +24,14 @@ These are exercises to practice and enhance my self-learn SQL skills and advance
     GROUP BY follows.follower_id
     ORDER BY total DESC LIMIT 5;
     
-  2/ Find out Top 5 period hours that have most interation:
+  3/ Find out Top 5 period hours that have most interation:
   
     SELECT HOUR(created_at) AS hour, COUNT(*) AS total 
     FROM likes 
     GROUP BY hour 
     ORDER BY total DESC LIMIT 5;
     
-  3/ Find out Top 10 photos with specific hashtags, the users who posted those photos and the following likes (for ex: to identify the winners of a marketing contest)
+  4/ Find out Top 10 photos with specific hashtags, the users who posted those photos and the following likes (for ex: to identify the winners of a marketing contest)
   In this case we use 2 hashtags: fun (id: 13), party (id: 17) 
 
     SELECT users.username, photos.id, photos.image_url,
@@ -39,7 +44,7 @@ These are exercises to practice and enhance my self-learn SQL skills and advance
     GROUP BY photos.id 
     ORDER BY total_likes DESC LIMIT 10;
     
-  4/ Count the percentage of users who have never commented or commented on every photo
+  5/ Count the percentage of users who have never commented or commented on every photo
   (for ex: to cluster our customers and see the portion of each group)
 
 - Percentage of users that have never commented:
