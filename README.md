@@ -8,7 +8,7 @@ These are exercises to practice and enhance my self-learn SQL skills and advance
   
   Table schema is as follows: 
   
-  (insert picture here?)
+  ![alt text](ig_schema.PNG "Logo Title Text 1")
   
   
   1/ Find out Top 5 users that have most followees:
