@@ -158,6 +158,7 @@ I use SQL Server to explore, query data and export to Excel. Then do some other 
 		WHERE MONTH([sample].[Month1]) IN (1,2,3,4,5,6,7,8)
 		GROUP BY [sample].[State], YEAR([sample].[Month1])
 		ORDER BY [sample].[State], YEAR([sample].[Month1]);
+		
 
 		SELECT [sample].[State], YEAR([sample].[Month1]) AS [year],
 			   SUM([sample].[sales])/1000 AS monthly_sales_kUSD
