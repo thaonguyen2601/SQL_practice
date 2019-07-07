@@ -82,8 +82,8 @@ These are exercises to practice and enhance my self-learn SQL skills and advance
 					followee_id = OLD.followee_id;
 			    END;
 		    END;
-        $$
-        DELIMITER ;
+        	$$
+	DELIMITER ;
 
 
 # Exercise 2:
