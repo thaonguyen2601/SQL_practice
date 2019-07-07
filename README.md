@@ -62,7 +62,7 @@ These are exercises to practice and enhance my self-learn SQL skills and advance
  - Percentage of users that have commented on every photo: 
  
         SELECT COUNT(*) FROM comments ;
-    --> to see how many comments there are in our database, then use that number to calculate the user (in this case: [14976][df1])
+    --> to see how many comments there are in our database, then use that number to calculate the user (in this case: *14976* comments)
 
         SELECT ( SELECT ( (	
                 SELECT COUNT(*) FROM users 
