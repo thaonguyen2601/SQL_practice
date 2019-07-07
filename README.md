@@ -75,9 +75,7 @@ These are exercises to practice and enhance my self-learn SQL skills and advance
   Working on fake database *"sample_data"* with one table called *"sample"* (~76,930 rows) about Sales of a Fashion Company with following facts: 
 
 > (1)	Data period: 2016-01-01 to 2017-08-01.
-
 > (2)	This company has 2 chains: Fashion Direct & Next Look
-
 > (3)	Operates in Australia
 
 Table schema is as below:
@@ -88,24 +86,24 @@ Table schema is as below:
 
 
 How I do the analysis:
->First, to evaluate company's performance, we see company sales trend and growth TY vs LY by comparing 2 similar periods. 
->Then, we spot out the abnormal chain/category/products... that are slowing down the growth 
+>First, to evaluate company's performance, we see company sales trend and growth TY vs LY by comparing 2 similar periods.
+>Then, we spot out the abnormal chain/category/products... that are slowing down the growth.
 >After knowing the problems, we dig deeper in the data to see what is really hapenning there,  figure out why and propose recommendations.
 
-I use SQL Server to explore, query data and export to Excel. Then do some other analysis and visualize in Excel  to build the whole report
+I use SQL Server to explore, query data and export to Excel. Then do some other analysis and visualization in Excel to build the whole report
 
 - Sales trend:
 
 
-     SELECT	CONCAT(YEAR([sample].[Month1]),'-', MONTH([sample].[Month1]) AS
-            [date],
-            [sample].[Chain],
-            SUM([sample].[Sales])/1000 AS monthly_sales_kUSD
-    FROM [sample]
-    GROUP BY YEAR([sample].[Month1]),
-             MONTH([sample].[Month1]),[sample].[Chain]
-    ORDER BY [sample].[Chain],
-             YEAR([sample].[Month1]), MONTH([sample].[Month1]);
+		SELECT	CONCAT(YEAR([sample].[Month1]),'-', MONTH([sample].[Month1]) AS [date],
+                [sample].[Chain],
+                SUM([sample].[Sales])/1000 AS monthly_sales_kUSD
+		FROM [sample]
+		GROUP BY YEAR([sample].[Month1]),
+                 MONTH([sample].[Month1]),[sample].[Chain]
+		ORDER BY [sample].[Chain],
+                 YEAR([sample].[Month1]), MONTH([sample].[Month1]);
+				 
         
 - Sales growth: 
 
@@ -115,59 +113,63 @@ I use SQL Server to explore, query data and export to Excel. Then do some other 
         FROM [sample]
         WHERE MONTH([sample].[Month1]) IN (1,2,3,4,5,6,7,8)
         GROUP BY YEAR([sample].[Month1]);
+		
+		
         
 - Value Change vs LY by Category - YTD:
 
 
-    SELECT [sample].[Chain], [sample].[Category], 
-           YEAR([sample].[Month1]) AS [year],   
-           SUM([sample].[sales])/1000 AS monthly_sales_kUSD
-    FROM [sample]
-    WHERE MONTH([sample].[Month1]) IN (1,2,3,4,5,6,7,8)
-    GROUP BY [sample].[Chain], [sample].[Category],
-             YEAR([sample].[Month1])
-    ORDER BY [sample].[Chain], [sample].[Category],
-             YEAR([sample].[Month1]);
+		SELECT [sample].[Chain], [sample].[Category], 
+			   YEAR([sample].[Month1]) AS [year],   
+			   SUM([sample].[sales])/1000 AS monthly_sales_kUSD
+		FROM [sample]
+		WHERE MONTH([sample].[Month1]) IN (1,2,3,4,5,6,7,8)
+		GROUP BY [sample].[Chain], [sample].[Category],
+                 YEAR([sample].[Month1])
+		ORDER BY [sample].[Chain], [sample].[Category],
+                 YEAR([sample].[Month1]);
                  
 - Women sales trend and sales by states: 
 
 
 
-    SELECT [sample].[State], YEAR([sample].[Month1]) AS [year], 
-           SUM([sample].[sales])/1000 AS monthly_sales_kUSD
-	FROM [sample]
-    WHERE MONTH([sample].[Month1]) IN (1,2,3,4,5,6,7,8)
-    GROUP BY [sample].[State], YEAR([sample].[Month1])
-    ORDER BY [sample].[State], YEAR([sample].[Month1]);
+		SELECT [sample].[State], YEAR([sample].[Month1]) AS [year], 
+			   SUM([sample].[sales])/1000 AS monthly_sales_kUSD
+		FROM [sample]
+		WHERE MONTH([sample].[Month1]) IN (1,2,3,4,5,6,7,8)
+		GROUP BY [sample].[State], YEAR([sample].[Month1])
+		ORDER BY [sample].[State], YEAR([sample].[Month1]);
 
-    SELECT [sample].[State], YEAR([sample].[Month1]) AS [year],
-           SUM([sample].[sales])/1000 AS monthly_sales_kUSD
-	FROM [sample]
-    WHERE [sample].[Category] LIKE 'Wome%'
-	      AND MONTH([sample].[Month1]) IN (1,2,3,4,5,6,7,8)
-    GROUP BY [sample].[State], YEAR([sample].[Month1])
-    ORDER BY [sample].[State], YEAR([sample].[Month1]);
+		SELECT [sample].[State], YEAR([sample].[Month1]) AS [year],
+			   SUM([sample].[sales])/1000 AS monthly_sales_kUSD
+		FROM [sample]
+		WHERE [sample].[Category] LIKE 'Wome%'
+			  AND MONTH([sample].[Month1]) IN (1,2,3,4,5,6,7,8)
+		GROUP BY [sample].[State], YEAR([sample].[Month1])
+		ORDER BY [sample].[State], YEAR([sample].[Month1]);
+		
+
 
 Results:
 
 *From Jan to May17, sales trend is quite similar to LY. However, since Jun17, sales trend starts to fluctuates with sudden decrease, sales recovers in Jul but still lower than LY -7.4%, happened for both chains. 
 Next Look is lacking behind with negative growth.*
 	
-	![alt text](monthly_sales.PNG "Logo Title Text 1")
+![alt text](monthly_sales.PNG "Logo Title Text 1")
 
-	![alt text](total_sales.PNG "Logo Title Text 1")
+![alt text](total_sales.PNG "Logo Title Text 1")
 
 
 *Women, accounts for 8.3% total chain, is the main category which is losing TY, with a loss around 686 kUSD (-26.6% vs LY). Other main categories are still growing, such as Men (+6.6%), Home (+12.6%) and Shoes (+4.2%).*
 
-	![alt text](value_chg.PNG "Logo Title Text 1")
+![alt text](value_chg.PNG "Logo Title Text 1")
 
 
 *From Jan16 till now, Women sales is decreasing since Sep16, has some uplifts during YTD17 but still lower vs LY, happened across States, most severe in NSW, QLD, VIC.*
 
-	![alt text](sales_trend_women.PNG "Logo Title Text 1")
+![alt text](sales_trend_women.PNG "Logo Title Text 1")
 	
-	![alt text](table_women.PNG "Logo Title Text 1")
+![alt text](table_women.PNG "Logo Title Text 1")
 
 
 
