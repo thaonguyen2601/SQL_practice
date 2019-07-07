@@ -71,6 +71,20 @@ These are exercises to practice and enhance my self-learn SQL skills and advance
         ( SELECT COUNT(*) FROM users) ) * 100 AS percent_cmt_all ; 
 
 
+   6/ Tracking unfollows using triggers:
+
+      	DELIMITER $$
+	        CREATE TRIGGER tracking_unfollows 
+		    AFTER DELETE ON follows FOR EACH ROW
+			    BEGIN
+				    INSERT INTO unfollows 
+				    SET follower_id = OLD.follower_id,
+					followee_id = OLD.followee_id;
+			    END;
+		    END;
+        $$
+        DELIMITER ;
+
 
 # Exercise 2:
   Working on fake database *"sample_data"* with one table called *"sample"* (~76,930 rows) about Sales of a Fashion Company with following facts: 
