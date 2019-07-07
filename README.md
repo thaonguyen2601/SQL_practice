@@ -83,7 +83,7 @@ These are exercises to practice and enhance my self-learn SQL skills and advance
 			    END;
 		    END;
         	$$
-	DELIMITER ;
+		DELIMITER ;
 
 
 # Exercise 2:
