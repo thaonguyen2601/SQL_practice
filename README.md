@@ -75,12 +75,17 @@ These are exercises to practice and enhance my self-learn SQL skills and advance
   Working on fake database *"sample_data"* with one table called *"sample"* (~76,930 rows) about Sales of a Fashion Company with following facts: 
 
 > (1)	Data period: 2016-01-01 to 2017-08-01.
+
 > (2)	This company has 2 chains: Fashion Direct & Next Look
+
 > (3)	Operates in Australia
 
 Table schema is as below:
 
-	![alt text](sale_schema.PNG "Logo Title Text 1")
+
+![alt text](sale_schema.png "Logo Title Text 1")
+
+
 
 How I do the analysis:
 >First, to evaluate company's performance, we see company sales trend and growth TY vs LY by comparing 2 similar periods. 
