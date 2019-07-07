@@ -33,7 +33,7 @@ These are exercises to practice and enhance my self-learn SQL skills and advance
     GROUP BY hour 
     ORDER BY total DESC LIMIT 5;
     
-  4/ Find out Top 10 photos with specific hashtags, the users who posted those photos and the following likes (for ex: to identify the winners of a marketing contest)
+  4/ Find out Top 10 photos with specific hashtags, the users who posted those photos and the following likes (for ex: to identify the winners of a marketing contest). 
   In this case we use 2 hashtags: fun (id: 13), party (id: 17) 
 
     SELECT users.username, photos.id, photos.image_url,
