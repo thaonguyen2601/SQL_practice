@@ -71,162 +71,101 @@ These are exercises to practice and enhance my self-learn SQL skills and advance
         ( SELECT COUNT(*) FROM users) ) * 100 AS percent_cmt_all ; 
 
 
+# Exercise 2:
+  Working on fake database *"sample_data"* with one table called *"sample"* (~76,930 rows) about Sales of a Fashion Company with following facts: 
 
-> The overriding design goal for Markdown's
-> formatting syntax is to make it as readable
-> as possible. The idea is that a
-> Markdown-formatted document should be
-> publishable as-is, as plain text, without
-> looking like it's been marked up with tags
-> or formatting instructions.
+> (1)	Data period: 2016-01-01 to 2017-08-01.
+> (2)	This company has 2 chains: Fashion Direct & Next Look
+> (3)	Operates in Australia
 
-This text you see here is *actually* written in Markdown! To get a feel for Markdown's syntax, type some text into the left window and watch the results in the right.
+Table schema is as below:
 
-### Tech
+	![alt text](sale_schema.PNG "Logo Title Text 1")
 
-Dillinger uses a number of open source projects to work properly:
+How I do the analysis:
+>First, to evaluate company's performance, we see company sales trend and growth TY vs LY by comparing 2 similar periods. 
+>Then, we spot out the abnormal chain/category/products... that are slowing down the growth 
+>After knowing the problems, we dig deeper in the data to see what is really hapenning there,  figure out why and propose recommendations.
 
-* [AngularJS] - HTML enhanced for web apps!
-* [Ace Editor] - awesome web-based text editor
-* [markdown-it] - Markdown parser done right. Fast and easy to extend.
-* [Twitter Bootstrap] - great UI boilerplate for modern web apps
-* [node.js] - evented I/O for the backend
-* [Express] - fast node.js network app framework [@tjholowaychuk]
-* [Gulp] - the streaming build system
-* [Breakdance](http://breakdance.io) - HTML to Markdown converter
-* [jQuery] - duh
+I use SQL Server to explore, query data and export to Excel. Then do some other analysis and visualize in Excel  to build the whole report
 
-And of course Dillinger itself is open source with a [public repository][dill]
- on GitHub.
-
-### Installation
-
-Dillinger requires [Node.js](https://nodejs.org/) v4+ to run.
-
-Install the dependencies and devDependencies and start the server.
-
-```sh
-$ SELECT dillinger
-$ npm install -d
-$ node app
-```
-
-For production environments...
-
-```sh
-$ npm install --production
-$ NODE_ENV=production node app
-```
-
-### Plugins
-
-Dillinger is currently extended with the following plugins. Instructions on how to use them in your own application are linked below.
-
-| Plugin | README |
-| ------ | ------ |
-| Dropbox | [plugins/dropbox/README.md][PlDb] |
-| Github | [plugins/github/README.md][PlGh] |
-| Google Drive | [plugins/googledrive/README.md][PlGd] |
-| OneDrive | [plugins/onedrive/README.md][PlOd] |
-| Medium | [plugins/medium/README.md][PlMe] |
-| Google Analytics | [plugins/googleanalytics/README.md][PlGa] |
+- Sales trend:
 
 
-### Development
+     SELECT	CONCAT(YEAR([sample].[Month1]),'-', MONTH([sample].[Month1]) AS
+            [date],
+            [sample].[Chain],
+            SUM([sample].[Sales])/1000 AS monthly_sales_kUSD
+    FROM [sample]
+    GROUP BY YEAR([sample].[Month1]),
+             MONTH([sample].[Month1]),[sample].[Chain]
+    ORDER BY [sample].[Chain],
+             YEAR([sample].[Month1]), MONTH([sample].[Month1]);
+        
+- Sales growth: 
 
-Want to contribute? Great!
-
-Dillinger uses Gulp + Webpack for fast developing.
-Make a change in your file and instantanously see your updates!
-
-Open your favorite Terminal and run these commands.
-
-First Tab:
-```sh
-$ node app
-```
-
-Second Tab:
-```sh
-$ gulp watch
-```
-
-(optional) Third:
-```sh
-$ karma test
-```
-#### Building for source
-For production release:
-```sh
-$ gulp build --prod
-```
-Generating pre-built zip archives for distribution:
-```sh
-$ gulp build dist --prod
-```
-### Docker
-Dillinger is very easy to install and deploy in a Docker container.
-
-By default, the Docker will expose port 8080, so change this within the Dockerfile if necessary. When ready, simply use the Dockerfile to build the image.
-
-```sh
-cd dillinger
-docker build -t joemccann/dillinger:${package.json.version} .
-```
-This will create the dillinger image and pull in the necessary dependencies. Be sure to swap out `${package.json.version}` with the actual version of Dillinger.
-
-Once done, run the Docker image and map the port to whatever you wish on your host. In this example, we simply map port 8000 of the host to port 8080 of the Docker (or whatever port was exposed in the Dockerfile):
-
-```sh
-docker run -d -p 8000:8080 --restart="always" <youruser>/dillinger:${package.json.version}
-```
-
-Verify the deployment by navigating to your server address in your preferred browser.
-
-```sh
-127.0.0.1:8000
-```
-
-#### Kubernetes + Google Cloud
-
-See [KUBERNETES.md](https://github.com/joemccann/dillinger/blob/master/KUBERNETES.md)
+        
+        SELECT YEAR([sample].[Month1]) AS year, 
+               ROUND(SUM([sample].[sales])/1000,2) AS sales_8_months
+        FROM [sample]
+        WHERE MONTH([sample].[Month1]) IN (1,2,3,4,5,6,7,8)
+        GROUP BY YEAR([sample].[Month1]);
+        
+- Value Change vs LY by Category - YTD:
 
 
-### Todos
-
- - Write MORE Tests
- - Add Night Mode
-
-License
-----
-
-MIT
-
-
-**Free Software, Hell Yeah!**
-
-[//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
+    SELECT [sample].[Chain], [sample].[Category], 
+           YEAR([sample].[Month1]) AS [year],   
+           SUM([sample].[sales])/1000 AS monthly_sales_kUSD
+    FROM [sample]
+    WHERE MONTH([sample].[Month1]) IN (1,2,3,4,5,6,7,8)
+    GROUP BY [sample].[Chain], [sample].[Category],
+             YEAR([sample].[Month1])
+    ORDER BY [sample].[Chain], [sample].[Category],
+             YEAR([sample].[Month1]);
+                 
+- Women sales trend and sales by states: 
 
 
-   [dill]: <https://github.com/joemccann/dillinger>
-   [git-repo-url]: <https://github.com/joemccann/dillinger.git>
-   [john gruber]: <http://daringfireball.net>
-   [df1]: <http://daringfireball.net/projects/markdown/>
-   [markdown-it]: <https://github.com/markdown-it/markdown-it>
-   [Ace Editor]: <http://ace.ajax.org>
-   [node.js]: <http://nodejs.org>
-   [Twitter Bootstrap]: <http://twitter.github.com/bootstrap/>
-   [jQuery]: <http://jquery.com>
-   [@tjholowaychuk]: <http://twitter.com/tjholowaychuk>
-   [express]: <http://expressjs.com>
-   [AngularJS]: <http://angularjs.org>
-   [Gulp]: <http://gulpjs.com>
 
-   [PlDb]: <https://github.com/joemccann/dillinger/tree/master/plugins/dropbox/README.md>
-   [PlGh]: <https://github.com/joemccann/dillinger/tree/master/plugins/github/README.md>
-   [PlGd]: <https://github.com/joemccann/dillinger/tree/master/plugins/googledrive/README.md>
-   [PlOd]: <https://github.com/joemccann/dillinger/tree/master/plugins/onedrive/README.md>
-   [PlMe]: <https://github.com/joemccann/dillinger/tree/master/plugins/medium/README.md>
-   [PlGa]: <https://github.com/RahulHP/dillinger/blob/master/plugins/googleanalytics/README.md>
+    SELECT [sample].[State], YEAR([sample].[Month1]) AS [year], 
+           SUM([sample].[sales])/1000 AS monthly_sales_kUSD
+	FROM [sample]
+    WHERE MONTH([sample].[Month1]) IN (1,2,3,4,5,6,7,8)
+    GROUP BY [sample].[State], YEAR([sample].[Month1])
+    ORDER BY [sample].[State], YEAR([sample].[Month1]);
+
+    SELECT [sample].[State], YEAR([sample].[Month1]) AS [year],
+           SUM([sample].[sales])/1000 AS monthly_sales_kUSD
+	FROM [sample]
+    WHERE [sample].[Category] LIKE 'Wome%'
+	      AND MONTH([sample].[Month1]) IN (1,2,3,4,5,6,7,8)
+    GROUP BY [sample].[State], YEAR([sample].[Month1])
+    ORDER BY [sample].[State], YEAR([sample].[Month1]);
+
+Results:
+
+*From Jan to May17, sales trend is quite similar to LY. However, since Jun17, sales trend starts to fluctuates with sudden decrease, sales recovers in Jul but still lower than LY -7.4%, happened for both chains. 
+Next Look is lacking behind with negative growth.*
+	
+	![alt text](monthly_sales.PNG "Logo Title Text 1")
+
+	![alt text](total_sales.PNG "Logo Title Text 1")
+
+
+*Women, accounts for 8.3% total chain, is the main category which is losing TY, with a loss around 686 kUSD (-26.6% vs LY). Other main categories are still growing, such as Men (+6.6%), Home (+12.6%) and Shoes (+4.2%).*
+
+	![alt text](value_chg.PNG "Logo Title Text 1")
+
+
+*From Jan16 till now, Women sales is decreasing since Sep16, has some uplifts during YTD17 but still lower vs LY, happened across States, most severe in NSW, QLD, VIC.*
+
+	![alt text](sales_trend_women.PNG "Logo Title Text 1")
+	
+	![alt text](table_women.PNG "Logo Title Text 1")
+
+
+
+
 
 
