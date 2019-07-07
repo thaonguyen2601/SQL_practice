@@ -13,38 +13,38 @@ These are exercises to practice and enhance my self-learn SQL skills and advance
   
    1/ Find out Total users we are having on our database:
   
-    SELECT COUNT(*) AS total_users
-    FROM users;
+    	SELECT COUNT(*) AS total_users
+    	FROM users;
    
   
   2/ Find out Top 5 users that have most followees:
   
-    SELECT users.username, follows.follower_id, COUNT(*) as total
-    FROM follows
-    INNER JOIN users ON users.id = follows.follower_id
-    GROUP BY follows.follower_id
-    ORDER BY total DESC LIMIT 5;
+    	SELECT users.username, follows.follower_id, COUNT(*) as total
+    	FROM follows
+    	INNER JOIN users ON users.id = follows.follower_id
+    	GROUP BY follows.follower_id
+    	ORDER BY total DESC LIMIT 5;
     
     
   3/ Find out Top 5 period hours that have most interation:
   
-    SELECT HOUR(created_at) AS hour, COUNT(*) AS total 
-    FROM likes 
-    GROUP BY hour 
-    ORDER BY total DESC LIMIT 5;
+    	SELECT HOUR(created_at) AS hour, COUNT(*) AS total 
+    	FROM likes 
+    	GROUP BY hour 
+    	ORDER BY total DESC LIMIT 5;
     
   4/ Find out Top 10 photos with specific hashtags, the users who posted those photos and the following likes (for ex: to identify the winners of a marketing contest). 
   In this case we use 2 hashtags: fun (id: 13), party (id: 17) 
 
-    SELECT users.username, photos.id, photos.image_url,
-           COUNT(likes.created_at) AS total_likes, photo_tags.tag_id
-    FROM photos
-    JOIN users ON users.id = photos.user_id 
-    JOIN likes ON photos.id = likes.photo_id
-    JOIN photo_tags ON photo_tags.photo_id = photos.id
-    WHERE photo_tags.tag_id IN (13,17)
-    GROUP BY photos.id 
-    ORDER BY total_likes DESC LIMIT 10;
+    	SELECT users.username, photos.id, photos.image_url,
+               COUNT(likes.created_at) AS total_likes, photo_tags.tag_id
+    	FROM photos
+    	JOIN users ON users.id = photos.user_id 
+    	JOIN likes ON photos.id = likes.photo_id
+    	JOIN photo_tags ON photo_tags.photo_id = photos.id
+    	WHERE photo_tags.tag_id IN (13,17)
+    	GROUP BY photos.id 
+    	ORDER BY total_likes DESC LIMIT 10;
     
   5/ Count the percentage of users who have never commented or commented on every photo
   (for ex: to cluster our customers and see the portion of each group)
@@ -71,7 +71,7 @@ These are exercises to practice and enhance my self-learn SQL skills and advance
         ( SELECT COUNT(*) FROM users) ) * 100 AS percent_cmt_all ; 
 
 
-   6/ Tracking unfollows using triggers:
+  6/ Tracking unfollows using triggers:
 
       	DELIMITER $$
 	        CREATE TRIGGER tracking_unfollows 
