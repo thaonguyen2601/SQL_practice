@@ -75,7 +75,9 @@ These are exercises to practice and enhance my self-learn SQL skills and advance
   Working on fake database *"sample_data"* with one table called *"sample"* (~76,930 rows) about Sales of a Fashion Company with following facts: 
 
 > (1)	Data period: 2016-01-01 to 2017-08-01.
+
 > (2)	This company has 2 chains: Fashion Direct & Next Look
+
 > (3)	Operates in Australia
 
 Table schema is as below:
@@ -87,7 +89,9 @@ Table schema is as below:
 
 How I do the analysis:
 >First, to evaluate company's performance, we see company sales trend and growth TY vs LY by comparing 2 similar periods.
+
 >Then, we spot out the abnormal chain/category/products... that are slowing down the growth.
+
 >After knowing the problems, we dig deeper in the data to see what is really hapenning there,  figure out why and propose recommendations.
 
 I use SQL Server to explore, query data and export to Excel. Then do some other analysis and visualization in Excel to build the whole report
