@@ -3,7 +3,7 @@
 
 These are exercises to practice and enhance my self-learn SQL skills and advanced Excel.
 
-# Exercises 1:
+# Exercise 1:
   Working on Instagram's clone database (100 users), with 7 relational tables, using MySQL to answer business requirements
   
   Table schema is as follows: 
