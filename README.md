@@ -71,6 +71,7 @@ These are exercises to practice and enhance my self-learn SQL skills and advance
         ( SELECT COUNT(*) FROM users) ) * 100 AS percent_cmt_all ; 
 
 
+
 # Exercise 2:
   Working on fake database *"sample_data"* with one table called *"sample"* (~76,930 rows) about Sales of a Fashion Company with following facts: 
 
@@ -99,7 +100,7 @@ I use SQL Server to explore, query data and export to Excel. Then do some other 
 - Sales trend:
 
 
-		SELECT	CONCAT(YEAR([sample].[Month1]),'-', MONTH([sample].[Month1]) AS [date],
+		SELECT CONCAT(YEAR([sample].[Month1]),'-', MONTH([sample].[Month1]) AS [date],
                 [sample].[Chain],
                 SUM([sample].[Sales])/1000 AS monthly_sales_kUSD
 		FROM [sample]
